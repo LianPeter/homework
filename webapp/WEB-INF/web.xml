@@ -1,0 +1,28 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+    <servlet>
+        <servlet-name>TeacherLoginServlet</servlet-name>
+        <servlet-class>com.example.controller.TeacherLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TeacherLoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TeacherRegisterServlet</servlet-name>
+        <servlet-class>com.example.controller.TeacherRegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TeacherRegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AssignmentServlet</servlet-name>
+        <servlet-class>com.example.controller.AssignmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AssignmentServlet</servlet-name>
+        <url-pattern>/assignments</url-pattern>
+    </servlet-mapping>
+</web-app>

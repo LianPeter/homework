@@ -1,0 +1,16 @@
+- src/
+    - com/
+        - example/
+            - controller/  // 包含控制器类，如登录、注册、作业管理
+            - dao/         // 包含与数据库交互的类，如登录验证、作业管理
+            - model/       // 包含数据模型类，如老师、作业、学生作业
+            - util/        // 辅助类，如数据库连接等
+- webapp/
+    - WEB-INF/
+        - web.xml       // 配置文件，配置 servlet 映射等
+    - index.jsp       // 首页
+    - login.jsp       // 老师登录页
+    - register.jsp    // 老师注册页
+    - dashboard.jsp   // 老师后台管理页
+    - create_assignment.jsp  // 布置作业页面
+    - view_assignments.jsp    // 查看作业提交情况页面
