@@ -1,4 +1,4 @@
-package example.contrlller;
+package com.example.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-
-import static com.alibaba.druid.sql.ast.expr.SQLBinaryOperator.Assignment;
 
 @WebServlet("/assignments")
 public class AssignmentServlet extends HttpServlet {
