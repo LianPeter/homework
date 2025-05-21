@@ -5,14 +5,12 @@ public class Teacher {
     private String teacherEmail;
     private String teacherPassword;
 
-    // Constructor
     public Teacher(String name, String email, String password) {
         this.teacherName = name;
         this.teacherEmail = email;
         this.teacherPassword = password;
     }
 
-    // Getters and Setters
     public String getTeacherName() {
         return teacherName;
     }
@@ -37,8 +35,7 @@ public class Teacher {
         this.teacherPassword = teacherPassword;
     }
 
-    // Assuming teacher_id will be fetched from the database
     public Object getTeacherId() {
-        return null; // Normally, this would be fetched from the database
+        return null;
     }
 }

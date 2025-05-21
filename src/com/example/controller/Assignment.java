@@ -6,7 +6,6 @@ public class Assignment {
     private String description;
     private String dueDate;
 
-    // Constructor
     public Assignment(Object teacherId, String title, String description, String dueDate) {
         this.teacherId = teacherId;
         this.title = title;
@@ -14,7 +13,6 @@ public class Assignment {
         this.dueDate = dueDate;
     }
 
-    // Getters and Setters
     public Object getTeacherId() {
         return teacherId;
     }
