@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注册 - 作业管理系统</title>
-    <link rel="stylesheet" href="styles.css"> <!-- 自定义样式 -->
+    <link rel="stylesheet" href="static/index.css"> <!-- 自定义样式 -->
 </head>
 <body>
 <header>

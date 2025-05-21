@@ -1,0 +1,72 @@
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #eef1f5;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 1.2em 0;
+    text-align: center;
+}
+.container {
+    max-width: 420px;
+    background: #fff;
+    margin: 3em auto;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+.form-group {
+    margin-bottom: 1.5em;
+}
+label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    width: 100%;
+    padding: 0.9em;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #357abd;
+}
+.error-message {
+    background-color: #ffe0e0;
+    color: #c00;
+    border: 1px solid #f5c2c2;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1.5em;
+    text-align: center;
+}
+footer {
+    text-align: center;
+    margin-top: 2em;
+    color: #888;
+}
+a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>作业管理系统</title>
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="static/index.css">
 </head>
 <body>
 <header>

@@ -1,12 +1,15 @@
-package com.example.controller;
+package com.example.dao;
+
+import com.example.model.Teacher;
+import com.example.util.DatabaseUtil;
 
 import java.sql.*;
 
 public class TeacherDAO {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/teacher";
-    private static final String USER = "your_db_user";
-    private static final String PASSWORD = "your_db_password";
+    private static final String URL = "jdbc:mysql://localhost:3306/homework_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    private static final String USER = "root";
+    private static final String PASSWORD = "lianlian";
 
     public boolean registerTeacher(Teacher teacher) {
         String sql = "INSERT INTO teachers (teacher_name, teacher_email, teacher_password) VALUES (?, ?, ?)";
@@ -30,7 +33,7 @@ public class TeacherDAO {
     public Teacher getTeacherByEmailAndPassword(String email, String password) {
         String sql = "SELECT * FROM teachers WHERE teacher_email = ? AND teacher_password = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
@@ -47,5 +50,19 @@ public class TeacherDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void ensureSchemaExists() {
+        try (Connection conn = DatabaseUtil.getConnection();
+             Statement stmt = conn.createStatement()) {
+            // 示例检查某个表是否存在，如果不存在则创建
+            String sql = "CREATE TABLE IF NOT EXISTS teacher (" +
+                    "id INT PRIMARY KEY AUTO_INCREMENT," +
+                    "email VARCHAR(255) NOT NULL UNIQUE," +
+                    "password VARCHAR(255) NOT NULL)";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace(); // 实际项目中请记录日志
+        }
     }
 }
