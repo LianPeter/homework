@@ -104,4 +104,13 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DeleteAssignmentServlet</servlet-name>
+        <servlet-class>com.example.controller.DeleteAssignmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteAssignmentServlet</servlet-name>
+        <url-pattern>/delete-assignment</url-pattern>
+    </servlet-mapping>
+
 </web-app>
