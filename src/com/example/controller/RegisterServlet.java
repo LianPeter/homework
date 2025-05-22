@@ -1,34 +1,70 @@
 package com.example.controller;
 
 import com.example.dao.TeacherDAO;
+import com.example.dao.impl.TeacherDAOImpl;
 import com.example.model.Teacher;
-
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
+import java.sql.SQLException;
 
-@WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
+    private TeacherDAO teacherDAO;
 
+    @Override
+    public void init() throws ServletException {
+        teacherDAO = new TeacherDAOImpl();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/register.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
 
-        Teacher teacher = new Teacher(name, email, password);
-        TeacherDAO dao = new TeacherDAO();
+        // Validate input
+        if (!password.equals(confirmPassword)) {
+            request.setAttribute("error", "Passwords do not match");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
+        }
 
-        boolean success = dao.registerTeacher(teacher);
+        try {
+            // Check if username already exists
+            if (teacherDAO.findByUsername(username) != null) {
+                request.setAttribute("error", "Username already exists");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                return;
+            }
 
-        if (success) {
-            response.sendRedirect("login.jsp");
-        } else {
-            response.sendRedirect("register.jsp?error=1");
+            // Create new teacher
+            Teacher teacher = new Teacher();
+            teacher.setUsername(username);
+            teacher.setName(name);
+            teacher.setEmail(email);
+            teacher.setPassword(password);
+
+            if (teacherDAO.insert(teacher)) {
+                response.sendRedirect(request.getContextPath() + "/login");
+            } else {
+                request.setAttribute("error", "Registration failed");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Database error occurred");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
     }
 }

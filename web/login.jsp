@@ -1,47 +1,69 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录 - 作业管理系统</title>
-    <link rel="stylesheet" href="static/login.css"> <!-- 添加自定义样式 -->
+    <title>Login - Assignment Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+        .form-signin input[type="text"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
 </head>
 <body>
-<header>
-    <h1>作业管理系统</h1>
-</header>
+    <main class="form-signin text-center">
+        <form action="login" method="post">
+            <h1 class="h3 mb-3 fw-normal">Assignment Management System</h1>
+            <h2 class="h5 mb-3 fw-normal">Teacher Login</h2>
 
-<div class="container">
-    <h2>登录</h2>
+            <% if(request.getAttribute("error") != null) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= request.getAttribute("error") %>
+                </div>
+            <% } %>
 
-    <!-- 错误提示 -->
-    <c:if test="${param.error == '1'}">
-        <div class="error-message">
-            <p>邮箱或密码错误，请重试。</p>
-        </div>
-    </c:if>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                <label for="username">Username</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
 
-    <!-- 登录表单 -->
-    <form action="login" method="post">
-        <div class="form-group">
-            <label for="email">邮箱：</label>
-            <input type="email" id="email" name="email" required placeholder="请输入您的邮箱">
-        </div>
-
-        <div class="form-group">
-            <label for="password">密码：</label>
-            <input type="password" id="password" name="password" required placeholder="请输入您的密码">
-        </div>
-
-        <button type="submit">登录</button>
-    </form>
-
-    <p>没有账户？ <a href="register.jsp">注册</a></p>
-</div>
-
-<footer>
-    <p>作业管理系统 &copy; 2025</p>
-</footer>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            
+            <div class="mt-3">
+                <p>Don't have an account? <a href="register">Register here</a></p>
+            </div>
+            
+            <p class="mt-5 mb-3 text-muted">&copy; 2024</p>
+        </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

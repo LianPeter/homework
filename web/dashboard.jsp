@@ -1,57 +1,149 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>老师管理后台 - 作业管理系统</title>
-    <link rel="stylesheet" href="styles.css"> <!-- 自定义样式 -->
+    <title>Teacher Dashboard - Assignment Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        }
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .navbar-brand {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+        }
+        .navbar {
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+        }
+        main {
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<header>
-    <h1>作业管理系统</h1>
-    <div class="navbar">
-        <a href="view_assignments.jsp">查看作业</a>
-        <a href="create_assignment.jsp">布置作业</a>
-        <a href="logout.jsp">注销</a>
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Assignment Management System</a>
+            <div class="d-flex">
+                <span class="navbar-text me-3">Welcome, ${sessionScope.teacher.name}</span>
+                <a href="logout" class="btn btn-outline-light btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard">
+                                <i class="bi bi-house-door"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="create-assignment">
+                                <i class="bi bi-plus-circle"></i>
+                                Create Assignment
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="view-submissions">
+                                <i class="bi bi-list-check"></i>
+                                View Submissions
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Assignments</h5>
+                                <p class="card-text display-4">${totalAssignments}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Pending Submissions</h5>
+                                <p class="card-text display-4">${pendingSubmissions}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Graded Submissions</h5>
+                                <p class="card-text display-4">${gradedSubmissions}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Recent Assignments</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Created Date</th>
+                                <th>Deadline</th>
+                                <th>Submissions</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${recentAssignments}" var="assignment">
+                                <tr>
+                                    <td>${assignment.title}</td>
+                                    <td>${assignment.createdAt}</td>
+                                    <td>${assignment.deadline}</td>
+                                    <td>${assignment.submissionCount}</td>
+                                    <td>
+                                        <a href="view-submissions?id=${assignment.id}" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                        <a href="edit-assignment?id=${assignment.id}" class="btn btn-sm btn-secondary">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
     </div>
-</header>
 
-<div class="container">
-    <h2>欢迎回来，${teacher.teacherName}</h2>
-
-    <!-- 作业列表 -->
-    <h3>您的作业</h3>
-    <p>以下是您布置的所有作业：</p>
-
-    <table>
-        <thead>
-        <tr>
-            <th>作业标题</th>
-            <th>截止日期</th>
-            <th>已提交</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- 循环遍历作业 -->
-        <c:forEach var="assignment" items="${assignments}">
-            <tr>
-                <td>${assignment.title}</td>
-                <td>${assignment.dueDate}</td>
-                <td>${assignment.submittedCount} / ${assignment.totalStudents}</td>
-                <td>
-                    <!-- 查看提交情况的链接 -->
-                    <a href="view_submission.jsp?assignmentId=${assignment.id}">查看提交情况</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
-
-<footer>
-    <p>作业管理系统 &copy; 2025</p>
-</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
