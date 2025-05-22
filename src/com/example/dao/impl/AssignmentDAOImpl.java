@@ -11,7 +11,7 @@ public class AssignmentDAOImpl implements AssignmentDAO {
     
     @Override
     public Assignment findById(int id) throws SQLException {
-        String sql = "SELECT * FROM assignment WHERE id = ?";
+        String sql = "SELECT * FROM assignments WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -27,7 +27,7 @@ public class AssignmentDAOImpl implements AssignmentDAO {
     @Override
     public List<Assignment> findByTeacherId(int teacherId) throws SQLException {
         List<Assignment> assignments = new ArrayList<>();
-        String sql = "SELECT * FROM assignment WHERE teacher_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM assignments WHERE teacher_id = ? ORDER BY created_at DESC";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, teacherId);
@@ -43,7 +43,7 @@ public class AssignmentDAOImpl implements AssignmentDAO {
     @Override
     public List<Assignment> findAll() throws SQLException {
         List<Assignment> assignments = new ArrayList<>();
-        String sql = "SELECT * FROM assignment ORDER BY created_at DESC";
+        String sql = "SELECT * FROM assignments ORDER BY created_at DESC";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -56,7 +56,7 @@ public class AssignmentDAOImpl implements AssignmentDAO {
 
     @Override
     public boolean insert(Assignment assignment) throws SQLException {
-        String sql = "INSERT INTO assignment (teacher_id, title, content, deadline, created_at) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO assignments (teacher_id, title, content, deadline, created_at) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, assignment.getTeacherId());
@@ -81,7 +81,7 @@ public class AssignmentDAOImpl implements AssignmentDAO {
 
     @Override
     public boolean update(Assignment assignment) throws SQLException {
-        String sql = "UPDATE assignment SET title = ?, content = ?, deadline = ? WHERE id = ?";
+        String sql = "UPDATE assignments SET title = ?, content = ?, deadline = ? WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, assignment.getTitle());
@@ -94,7 +94,7 @@ public class AssignmentDAOImpl implements AssignmentDAO {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM assignment WHERE id = ?";
+        String sql = "DELETE FROM assignments WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);

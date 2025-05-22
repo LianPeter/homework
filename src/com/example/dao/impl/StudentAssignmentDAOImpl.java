@@ -11,7 +11,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
     
     @Override
     public StudentAssignment findById(int id) throws SQLException {
-        String sql = "SELECT * FROM student_assignment WHERE id = ?";
+        String sql = "SELECT * FROM student_assignments WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -27,7 +27,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
     @Override
     public List<StudentAssignment> findByAssignmentId(int assignmentId) throws SQLException {
         List<StudentAssignment> submissions = new ArrayList<>();
-        String sql = "SELECT * FROM student_assignment WHERE assignment_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM student_assignments WHERE assignment_id = ? ORDER BY created_at DESC";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, assignmentId);
@@ -43,7 +43,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
     @Override
     public List<StudentAssignment> findByStudentId(String studentId) throws SQLException {
         List<StudentAssignment> submissions = new ArrayList<>();
-        String sql = "SELECT * FROM student_assignment WHERE student_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM student_assignments WHERE student_id = ? ORDER BY created_at DESC";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, studentId);
@@ -58,7 +58,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
 
     @Override
     public boolean insert(StudentAssignment studentAssignment) throws SQLException {
-        String sql = "INSERT INTO student_assignment (assignment_id, student_id, student_name, " +
+        String sql = "INSERT INTO student_assignments (assignment_id, student_id, student_name, " +
                     "submission_content, submission_date, status, grade, feedback) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseUtil.getConnection();
@@ -88,7 +88,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
 
     @Override
     public boolean update(StudentAssignment studentAssignment) throws SQLException {
-        String sql = "UPDATE student_assignment SET submission_content = ?, submission_date = ?, " +
+        String sql = "UPDATE student_assignments SET submission_content = ?, submission_date = ?, " +
                     "status = ?, grade = ?, feedback = ? WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -104,7 +104,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM student_assignment WHERE id = ?";
+        String sql = "DELETE FROM student_assignments WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -115,7 +115,7 @@ public class StudentAssignmentDAOImpl implements StudentAssignmentDAO {
     @Override
     public List<StudentAssignment> findAllByStatus(String status) throws SQLException {
         List<StudentAssignment> submissions = new ArrayList<>();
-        String sql = "SELECT * FROM student_assignment WHERE status = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM student_assignments WHERE status = ? ORDER BY created_at DESC";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, status);
