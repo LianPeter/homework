@@ -78,6 +78,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AssignmentServlet</servlet-name>
+        <servlet-class>com.example.controller.AssignmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AssignmentServlet</servlet-name>
+        <url-pattern>/assignments</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ViewSubmissionsServlet</servlet-name>
         <servlet-class>com.example.controller.ViewSubmissionsServlet</servlet-class>
     </servlet>

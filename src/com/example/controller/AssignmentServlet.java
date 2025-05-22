@@ -5,7 +5,6 @@ import com.example.dao.impl.AssignmentDAOImpl;
 import com.example.model.Assignment;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,23 +16,32 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-@WebServlet("/assignments")
 public class AssignmentServlet extends HttpServlet {
-    private final AssignmentDAO assignmentDAO;
+    private AssignmentDAO assignmentDAO;
+    private SimpleDateFormat dateFormat;
 
-    public AssignmentServlet() {
-        this.assignmentDAO = new AssignmentDAOImpl();
+    @Override
+    public void init() throws ServletException {
+        try {
+            assignmentDAO = new AssignmentDAOImpl();
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        } catch (Exception e) {
+            throw new ServletException("Error initializing AssignmentServlet", e);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        System.out.println("AssignmentServlet: Starting doPost method");
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         
         if (teacher == null) {
-            response.sendRedirect("login");
+            System.out.println("AssignmentServlet: No teacher found in session");
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
@@ -41,27 +49,60 @@ public class AssignmentServlet extends HttpServlet {
         String content = request.getParameter("content");
         String deadlineStr = request.getParameter("deadline");
 
+        System.out.println("AssignmentServlet: Received parameters - Title: " + title + 
+                         ", Content length: " + (content != null ? content.length() : "null") + 
+                         ", Deadline: " + deadlineStr);
+
         try {
+            // Validate input
+            if (title == null || title.trim().isEmpty() || 
+                content == null || content.trim().isEmpty() || 
+                deadlineStr == null || deadlineStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("All fields are required");
+            }
+
             // Parse the deadline string to a Timestamp
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            System.out.println("AssignmentServlet: Parsing deadline string: " + deadlineStr);
             Date parsedDate = dateFormat.parse(deadlineStr);
             Timestamp deadline = new Timestamp(parsedDate.getTime());
+
+            // Validate deadline is in the future
+            if (deadline.before(new Timestamp(System.currentTimeMillis()))) {
+                throw new IllegalArgumentException("Deadline must be in the future");
+            }
 
             // Create new assignment
             Assignment assignment = new Assignment();
             assignment.setTeacherId(teacher.getId());
-            assignment.setTitle(title);
-            assignment.setContent(content);
+            assignment.setTitle(title.trim());
+            assignment.setContent(content.trim());
             assignment.setDeadline(deadline);
+            assignment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-            assignmentDAO.insert(assignment);
-            
-            response.sendRedirect("dashboard");
+            System.out.println("AssignmentServlet: Attempting to insert assignment");
+            if (assignmentDAO.insert(assignment)) {
+                System.out.println("AssignmentServlet: Assignment created successfully");
+                response.sendRedirect(request.getContextPath() + "/assignments");
+            } else {
+                throw new SQLException("Failed to create assignment");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("AssignmentServlet: Validation error: " + e.getMessage());
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/create-assignment.jsp").forward(request, response);
         } catch (ParseException e) {
-            request.setAttribute("error", "Invalid date format");
+            System.out.println("AssignmentServlet: Date parsing error: " + e.getMessage());
+            request.setAttribute("error", "Invalid date format. Please use format: yyyy-MM-dd HH:mm");
             request.getRequestDispatcher("/create-assignment.jsp").forward(request, response);
         } catch (SQLException e) {
-            request.setAttribute("error", "Failed to create assignment");
+            System.out.println("AssignmentServlet: Database error: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "Database error occurred: " + e.getMessage());
+            request.getRequestDispatcher("/create-assignment.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.out.println("AssignmentServlet: Unexpected error: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "An unexpected error occurred");
             request.getRequestDispatcher("/create-assignment.jsp").forward(request, response);
         }
     }
@@ -69,20 +110,33 @@ public class AssignmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Teacher teacher = (Teacher) session.getAttribute("teacher");
-        
-        if (teacher == null) {
-            response.sendRedirect("login");
-            return;
-        }
-
+        System.out.println("AssignmentServlet: Starting doGet method");
         try {
-            request.setAttribute("assignments", assignmentDAO.findByTeacherId(teacher.getId()));
+            HttpSession session = request.getSession();
+            Teacher teacher = (Teacher) session.getAttribute("teacher");
+            
+            if (teacher == null) {
+                System.out.println("AssignmentServlet: No teacher found in session");
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
+
+            System.out.println("AssignmentServlet: Fetching assignments for teacher ID: " + teacher.getId());
+            List<Assignment> assignments = assignmentDAO.findByTeacherId(teacher.getId());
+            System.out.println("AssignmentServlet: Found " + assignments.size() + " assignments");
+            
+            request.setAttribute("assignments", assignments);
             request.getRequestDispatcher("/assignments.jsp").forward(request, response);
         } catch (SQLException e) {
-            request.setAttribute("error", "Failed to load assignments");
-            request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+            System.out.println("AssignmentServlet: Database error: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "Error loading assignments: " + e.getMessage());
+            request.getRequestDispatcher("/assignments.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.out.println("AssignmentServlet: Unexpected error: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "An unexpected error occurred");
+            request.getRequestDispatcher("/assignments.jsp").forward(request, response);
         }
     }
 }

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,13 +84,13 @@
 
                 <% if(request.getAttribute("error") != null) { %>
                     <div class="alert alert-danger" role="alert">
-                        <%= request.getAttribute("error") %>
+                        <c:out value="${error}" />
                     </div>
                 <% } %>
 
                 <% if(request.getAttribute("success") != null) { %>
                     <div class="alert alert-success" role="alert">
-                        <%= request.getAttribute("success") %>
+                        <c:out value="${success}" />
                     </div>
                 <% } %>
 
@@ -128,7 +130,48 @@
         flatpickr("#deadline", {
             enableTime: true,
             dateFormat: "Y-m-d H:i",
-            minDate: "today"
+            minDate: new Date(),
+            defaultHour: new Date().getHours(),
+            defaultMinute: new Date().getMinutes() + 5,
+            time_24hr: true,
+            allowInput: true,
+            minuteIncrement: 1,
+            onClose: function(selectedDates, dateStr, instance) {
+                if (dateStr) {
+                    const formattedDate = instance.formatDate(selectedDates[0], "Y-m-d H:i");
+                    instance.input.value = formattedDate;
+                }
+            }
+        });
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+            const deadline = document.getElementById('deadline').value.trim();
+            
+            if (!title || !content || !deadline) {
+                e.preventDefault();
+                alert('Please fill in all fields');
+                return false;
+            }
+            
+            // Validate deadline format and time
+            const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+            if (!dateRegex.test(deadline)) {
+                e.preventDefault();
+                alert('Please select a valid deadline using the date picker');
+                return false;
+            }
+
+            // Check if deadline is in the future
+            const selectedDate = new Date(deadline.replace(' ', 'T'));
+            const now = new Date();
+            if (selectedDate <= now) {
+                e.preventDefault();
+                alert('Please select a future date and time');
+                return false;
+            }
         });
     </script>
 </body>
