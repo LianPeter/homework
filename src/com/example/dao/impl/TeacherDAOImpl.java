@@ -9,7 +9,7 @@ public class TeacherDAOImpl implements TeacherDAO {
     
     @Override
     public Teacher findByUsername(String username) throws SQLException {
-        String sql = "SELECT * FROM teacher WHERE username = ?";
+        String sql = "SELECT * FROM teachers WHERE username = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
@@ -24,7 +24,7 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public Teacher findById(int id) throws SQLException {
-        String sql = "SELECT * FROM teacher WHERE id = ?";
+        String sql = "SELECT * FROM teachers WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -39,7 +39,7 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public boolean insert(Teacher teacher) throws SQLException {
-        String sql = "INSERT INTO teacher (username, password, name, email) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO teachers (username, password, name, email) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacher.getUsername());
@@ -52,7 +52,7 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public boolean update(Teacher teacher) throws SQLException {
-        String sql = "UPDATE teacher SET username = ?, password = ?, name = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE teachers SET username = ?, password = ?, name = ?, email = ? WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacher.getUsername());
@@ -66,7 +66,7 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM teacher WHERE id = ?";
+        String sql = "DELETE FROM teachers WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -76,7 +76,7 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public boolean validateLogin(String username, String password) throws SQLException {
-        String sql = "SELECT * FROM teacher WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM teachers WHERE username = ? AND password = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);

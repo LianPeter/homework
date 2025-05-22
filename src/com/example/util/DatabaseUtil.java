@@ -8,8 +8,8 @@ import java.util.Properties;
 public class DatabaseUtil {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/homework_db";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String USERNAME = "homework_user";
+    private static final String PASSWORD = "Homework@123456";
 
     static {
         try {
@@ -27,6 +27,7 @@ public class DatabaseUtil {
         props.setProperty("serverTimezone", "UTC");
         props.setProperty("characterEncoding", "utf8");
         props.setProperty("allowPublicKeyRetrieval", "true");
+        props.setProperty("createDatabaseIfNotExist", "true");
         
         try {
             return DriverManager.getConnection(URL, props);
