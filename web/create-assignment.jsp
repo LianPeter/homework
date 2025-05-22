@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Create Assignment - Assignment Management System</title>
+    <title>创建作业 - 作业管理系统</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
 <body>
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Assignment Management System</a>
+            <a class="navbar-brand" href="#">作业管理系统</a>
             <div class="d-flex">
                 <span class="navbar-text me-3">Welcome, ${sessionScope.teacher.name}</span>
                 <a href="logout" class="btn btn-outline-light btn-sm">Logout</a>
@@ -58,19 +58,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="dashboard">
                                 <i class="bi bi-house-door"></i>
-                                Dashboard
+                                仪表盘
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="create-assignment">
                                 <i class="bi bi-plus-circle"></i>
-                                Create Assignment
+                                创建作业
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="view-submissions">
                                 <i class="bi bi-list-check"></i>
-                                View Submissions
+                                查看提交
                             </a>
                         </li>
                     </ul>
@@ -79,7 +79,7 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Create New Assignment</h1>
+                    <h1 class="h2">创建作业</h1>
                 </div>
 
                 <% if(request.getAttribute("error") != null) { %>
@@ -98,23 +98,23 @@
                     <div class="card-body">
                         <form action="create-assignment" method="post">
                             <div class="mb-3">
-                                <label for="title" class="form-label">Assignment Title</label>
+                                <label for="title" class="form-label">作业标题</label>
                                 <input type="text" class="form-control" id="title" name="title" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-label">Assignment Content</label>
+                                <label for="content" class="form-label">内容</label>
                                 <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label for="deadline" class="form-label">Deadline</label>
+                                <label for="deadline" class="form-label">截止日期</label>
                                 <input type="text" class="form-control" id="deadline" name="deadline" required>
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button type="button" class="btn btn-secondary me-md-2" onclick="window.location.href='dashboard'">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Create Assignment</button>
+                                <button type="submit" class="btn btn-primary">创建作业</button>
                             </div>
                         </form>
                     </div>
@@ -126,7 +126,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        // Initialize datetime picker
         flatpickr("#deadline", {
             enableTime: true,
             dateFormat: "Y-m-d H:i",
@@ -144,7 +143,6 @@
             }
         });
 
-        // Form validation
         document.querySelector('form').addEventListener('submit', function(e) {
             const title = document.getElementById('title').value.trim();
             const content = document.getElementById('content').value.trim();
@@ -152,24 +150,22 @@
             
             if (!title || !content || !deadline) {
                 e.preventDefault();
-                alert('Please fill in all fields');
-                return false;
-            }
-            
-            // Validate deadline format and time
-            const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
-            if (!dateRegex.test(deadline)) {
-                e.preventDefault();
-                alert('Please select a valid deadline using the date picker');
+                alert('请填写所有字段');
                 return false;
             }
 
-            // Check if deadline is in the future
+            const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+            if (!dateRegex.test(deadline)) {
+                e.preventDefault();
+                alert('请使用日期选择器选择一个有效的截止日期');
+                return false;
+            }
+
             const selectedDate = new Date(deadline.replace(' ', 'T'));
             const now = new Date();
             if (selectedDate <= now) {
                 e.preventDefault();
-                alert('Please select a future date and time');
+                alert('请选择截止的日期和时间');
                 return false;
             }
         });

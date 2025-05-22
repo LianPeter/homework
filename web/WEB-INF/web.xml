@@ -38,6 +38,7 @@
         <url-pattern>/assignments</url-pattern>
         <url-pattern>/create-assignment</url-pattern>
         <url-pattern>/view-submissions</url-pattern>
+        <url-pattern>/edit-assignment</url-pattern>
     </filter-mapping>
 
     <!-- Servlets -->
@@ -111,6 +112,15 @@
     <servlet-mapping>
         <servlet-name>DeleteAssignmentServlet</servlet-name>
         <url-pattern>/delete-assignment</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditAssignmentServlet</servlet-name>
+        <servlet-class>com.example.controller.EditAssignmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditAssignmentServlet</servlet-name>
+        <url-pattern>/edit-assignment</url-pattern>
     </servlet-mapping>
 
 </web-app>
