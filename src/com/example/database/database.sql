@@ -1,15 +1,14 @@
--- Create database
+-- 创建数据库
 CREATE DATABASE IF NOT EXISTS homework_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create user and grant privileges
+-- 创建用户并授予权限
 CREATE USER IF NOT EXISTS 'homework_user'@'localhost' IDENTIFIED BY 'Homework@123456';
 GRANT ALL PRIVILEGES ON homework_db.* TO 'homework_user'@'localhost';
 FLUSH PRIVILEGES;
 
--- Use the database
 USE homework_db;
 
--- Create teachers table
+-- 创建老师表
 CREATE TABLE IF NOT EXISTS teachers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -19,7 +18,7 @@ CREATE TABLE IF NOT EXISTS teachers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create assignments table
+-- 创建作业表
 CREATE TABLE IF NOT EXISTS assignments (
     id INT PRIMARY KEY AUTO_INCREMENT,
     teacher_id INT NOT NULL,
@@ -30,7 +29,7 @@ CREATE TABLE IF NOT EXISTS assignments (
     FOREIGN KEY (teacher_id) REFERENCES teachers(id)
 );
 
--- Create student_assignments table
+-- 创建学生作业表
 CREATE TABLE IF NOT EXISTS student_assignments (
     id INT PRIMARY KEY AUTO_INCREMENT,
     assignment_id INT NOT NULL,
@@ -45,11 +44,11 @@ CREATE TABLE IF NOT EXISTS student_assignments (
     FOREIGN KEY (assignment_id) REFERENCES assignments(id)
 );
 
--- Create indexes for better performance
+-- 索引
 CREATE INDEX idx_teacher_username ON teachers(username);
 CREATE INDEX idx_assignment_teacher ON assignments(teacher_id);
 CREATE INDEX idx_student_assignment_status ON student_assignments(status);
 
--- Create a test admin account
+-- 初始账户
 INSERT INTO teachers (username, password, name, email) 
 VALUES ('admin', '123456', 'Administrator', 'admin@example.com'); 

@@ -27,13 +27,11 @@ public class AuthenticationFilter implements Filter {
         boolean isRegisterPage = httpRequest.getRequestURI().endsWith("register.jsp");
 
         if (isLoggedIn && (isLoginRequest || isLoginPage || isRegisterRequest || isRegisterPage)) {
-            // Redirect to dashboard if user is already logged in
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/dashboard");
         } else if (isLoggedIn || isLoginRequest || isLoginPage || isRegisterRequest || isRegisterPage) {
-            // Continue the filter chain
+
             chain.doFilter(request, response);
         } else {
-            // Redirect to login page
             httpResponse.sendRedirect(loginURI);
         }
     }

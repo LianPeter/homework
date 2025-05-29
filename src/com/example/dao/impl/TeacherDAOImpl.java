@@ -80,7 +80,7 @@ public class TeacherDAOImpl implements TeacherDAO {
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
-            stmt.setString(2, password); // 注意：实际应用中应该使用加密的密码
+            stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
             }

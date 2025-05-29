@@ -9,18 +9,33 @@ public class Assignment {
     private String content;
     private Timestamp deadline;
     private Timestamp createdAt;
+    private String attachmentPath;  // 作业附件路径
+    private int maxScore;          // 作业满分
+    private boolean allowLateSubmission;  // 是否允许迟交
+    private String course;          // 所属课程
+    private String submissionType;  // 提交类型（如"文本"、"文件"等）
 
     public Assignment() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.maxScore = 100;  // 默认满分100分
+        this.allowLateSubmission = false;  // 默认不允许迟交
+        this.submissionType = "text";  // 默认文本提交
     }
 
-    public Assignment(int id, int teacherId, String title, String content, Timestamp deadline) {
+    public Assignment(int id, int teacherId, String title, String content, Timestamp deadline, 
+                     String attachmentPath, int maxScore, boolean allowLateSubmission,
+                     String course, String submissionType) {
         this.id = id;
         this.teacherId = teacherId;
         this.title = title;
         this.content = content;
         this.deadline = deadline;
         this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.attachmentPath = attachmentPath;
+        this.maxScore = maxScore;
+        this.allowLateSubmission = allowLateSubmission;
+        this.course = course;
+        this.submissionType = submissionType;
     }
 
     public int getId() {
@@ -69,5 +84,45 @@ public class Assignment {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getAttachmentPath() {
+        return attachmentPath;
+    }
+
+    public void setAttachmentPath(String attachmentPath) {
+        this.attachmentPath = attachmentPath;
+    }
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = maxScore;
+    }
+
+    public boolean isAllowLateSubmission() {
+        return allowLateSubmission;
+    }
+
+    public void setAllowLateSubmission(boolean allowLateSubmission) {
+        this.allowLateSubmission = allowLateSubmission;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getSubmissionType() {
+        return submissionType;
+    }
+
+    public void setSubmissionType(String submissionType) {
+        this.submissionType = submissionType;
     }
 }

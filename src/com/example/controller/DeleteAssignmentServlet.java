@@ -23,8 +23,7 @@ public class DeleteAssignmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("DeleteAssignmentServlet: Starting delete process");
-        
-        // Get the assignment ID from the request
+
         String assignmentId = request.getParameter("id");
         if (assignmentId == null || assignmentId.trim().isEmpty()) {
             System.out.println("DeleteAssignmentServlet: No assignment ID provided");
@@ -34,7 +33,6 @@ public class DeleteAssignmentServlet extends HttpServlet {
         }
 
         try {
-            // Get the teacher from the session
             HttpSession session = request.getSession(false);
             Teacher teacher = (Teacher) session.getAttribute("teacher");
             
@@ -44,7 +42,6 @@ public class DeleteAssignmentServlet extends HttpServlet {
                 return;
             }
 
-            // Delete the assignment
             boolean deleted = assignmentDAO.delete(Integer.parseInt(assignmentId));
 
             if (deleted) {
@@ -68,7 +65,6 @@ public class DeleteAssignmentServlet extends HttpServlet {
             request.getSession().setAttribute("error", "Error deleting assignment: " + e.getMessage());
         }
 
-        // Redirect back to the assignments page
         response.sendRedirect("assignments");
     }
 } 

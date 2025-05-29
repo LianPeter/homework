@@ -33,7 +33,6 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        // Validate input
         if (!password.equals(confirmPassword)) {
             request.setAttribute("error", "Passwords do not match");
             request.getRequestDispatcher("/register.jsp").forward(request, response);
@@ -41,14 +40,13 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-            // Check if username already exists
             if (teacherDAO.findByUsername(username) != null) {
                 request.setAttribute("error", "Username already exists");
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
                 return;
             }
 
-            // Create new teacher
+            // 创建一个新teacher
             Teacher teacher = new Teacher();
             teacher.setUsername(username);
             teacher.setName(name);
