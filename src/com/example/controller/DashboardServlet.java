@@ -31,7 +31,8 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         System.out.println("DashboardServlet: Starting doGet method");
-        
+
+        // 获取当前用户
         HttpSession session = request.getSession(false);
         if (session == null) {
             System.out.println("DashboardServlet: Session is null");
@@ -49,34 +50,33 @@ public class DashboardServlet extends HttpServlet {
         System.out.println("DashboardServlet: Teacher ID = " + teacher.getId());
 
         try {
-            // Initialize with empty lists in case of errors
             List<Assignment> assignments = new ArrayList<>();
             List<Assignment> recentAssignments = new ArrayList<>();
             int pendingSubmissions = 0;
             int completedSubmissions = 0;
 
-            // Get all assignments for the teacher
             System.out.println("DashboardServlet: Fetching assignments for teacher ID: " + teacher.getId());
+            // 获取老师的作业
             assignments = assignmentDAO.findByTeacherId(teacher.getId());
             request.setAttribute("totalAssignments", assignments.size());
 
-            // Get recent assignments (limit to 5)
+            // 显示最近5条信息
             recentAssignments = assignments.size() > 5 ? assignments.subList(0, 5) : assignments;
             request.setAttribute("recentAssignments", recentAssignments);
 
-            // Get submission statistics
             System.out.println("DashboardServlet: Fetching submission statistics");
             try {
+                // 统计提交情况
                 pendingSubmissions = studentAssignmentDAO.findAllByStatus("not_submitted").size();
                 completedSubmissions = studentAssignmentDAO.findAllByStatus("submitted").size();
             } catch (SQLException e) {
                 System.out.println("DashboardServlet: Error fetching submission statistics: " + e.getMessage());
-                // Continue execution even if statistics fail
             }
 
             request.setAttribute("pendingSubmissions", pendingSubmissions);
             request.setAttribute("completedSubmissions", completedSubmissions);
 
+            // 请求转发给dashboard.jsp
             System.out.println("DashboardServlet: Forwarding to dashboard.jsp");
             request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
             

@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+// 注册功能
 public class RegisterServlet extends HttpServlet {
     private TeacherDAO teacherDAO;
 
@@ -18,12 +19,14 @@ public class RegisterServlet extends HttpServlet {
         teacherDAO = new TeacherDAOImpl();
     }
 
+    // 显示注册表单
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         request.getRequestDispatcher("/register.jsp").forward(request, response);
     }
 
+    // 处理注册表单
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {

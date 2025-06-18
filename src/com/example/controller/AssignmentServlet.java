@@ -32,6 +32,7 @@ public class AssignmentServlet extends HttpServlet {
         }
     }
 
+    // 发布作业
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -54,24 +55,23 @@ public class AssignmentServlet extends HttpServlet {
                          ", Deadline: " + deadlineStr);
 
         try {
-            // Validate input
-            if (title == null || title.trim().isEmpty() || 
+            if (title == null || title.trim().isEmpty() ||
                 content == null || content.trim().isEmpty() || 
                 deadlineStr == null || deadlineStr.trim().isEmpty()) {
                 throw new IllegalArgumentException("All fields are required");
             }
 
-            // Parse the deadline string to a Timestamp
             System.out.println("AssignmentServlet: Parsing deadline string: " + deadlineStr);
+            // 字符串转换为date对象
             Date parsedDate = dateFormat.parse(deadlineStr);
             Timestamp deadline = new Timestamp(parsedDate.getTime());
 
-            // Validate deadline is in the future
+            // 确保ddl日期的正确性
             if (deadline.before(new Timestamp(System.currentTimeMillis()))) {
                 throw new IllegalArgumentException("Deadline must be in the future");
             }
 
-            // Create new assignment
+            // 写入数据库
             Assignment assignment = new Assignment();
             assignment.setTeacherId(teacher.getId());
             assignment.setTitle(title.trim());
@@ -107,6 +107,7 @@ public class AssignmentServlet extends HttpServlet {
         }
     }
 
+    // 查看发布的作业
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -121,7 +122,7 @@ public class AssignmentServlet extends HttpServlet {
                 return;
             }
 
-            System.out.println("AssignmentServlet: Fetching assignments for teacher ID: " + teacher.getId());
+            // 查询所有的作业
             List<Assignment> assignments = assignmentDAO.findByTeacherId(teacher.getId());
             System.out.println("AssignmentServlet: Found " + assignments.size() + " assignments");
             

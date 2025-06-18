@@ -50,5 +50,5 @@ CREATE INDEX idx_assignment_teacher ON assignments(teacher_id);
 CREATE INDEX idx_student_assignment_status ON student_assignments(status);
 
 -- 初始账户
-INSERT INTO teachers (username, password, name, email) 
-VALUES ('admin', '123456', 'Administrator', 'admin@example.com'); 
+INSERT INTO teachers (username, password, name, email)
+VALUES ('admin', '123456', 'Administrator', 'admin@example.com');

@@ -17,10 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 创建作业Servlet
+ * 处理教师创建新作业的请求
+ */
 public class CreateAssignmentServlet extends HttpServlet {
     private AssignmentDAO assignmentDAO;
     private SimpleDateFormat dateFormat;
 
+    /**
+     * Servlet初始化方法
+     * 初始化AssignmentDAO和日期格式化器
+     */
     @Override
     public void init() throws ServletException {
         try {
@@ -31,6 +39,10 @@ public class CreateAssignmentServlet extends HttpServlet {
         }
     }
 
+    /**
+     * 处理GET请求
+     * 显示创建作业页面
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -52,6 +64,10 @@ public class CreateAssignmentServlet extends HttpServlet {
         }
     }
 
+    /**
+     * 处理POST请求
+     * 处理创建作业的表单提交
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -113,12 +129,24 @@ public class CreateAssignmentServlet extends HttpServlet {
         }
     }
 
+    /**
+     * 验证输入参数
+     * @param title 作业标题
+     * @param content 作业内容
+     * @param deadlineStr 截止日期字符串
+     * @return 如果所有必填字段都不为空返回true，否则返回false
+     */
     private boolean validateInput(String title, String content, String deadlineStr) {
         return title != null && !title.trim().isEmpty() && 
                content != null && !content.trim().isEmpty() && 
                deadlineStr != null && !deadlineStr.trim().isEmpty();
     }
 
+    /**
+     * 解析和验证截止日期
+     * @param deadlineStr 截止日期字符串
+     * @return 如果日期格式正确且是未来时间返回Timestamp对象，否则返回null
+     */
     private Timestamp parseAndValidateDeadline(String deadlineStr) {
         try {
             System.out.println("CreateAssignmentServlet: Parsing deadline string: " + deadlineStr);
@@ -143,6 +171,14 @@ public class CreateAssignmentServlet extends HttpServlet {
         }
     }
 
+    /**
+     * 创建作业对象
+     * @param teacherId 教师ID
+     * @param title 作业标题
+     * @param content 作业内容
+     * @param deadline 截止日期
+     * @return 新创建的作业对象
+     */
     private Assignment createAssignment(int teacherId, String title, String content, Timestamp deadline) {
         Assignment assignment = new Assignment();
         assignment.setTeacherId(teacherId);
@@ -153,6 +189,12 @@ public class CreateAssignmentServlet extends HttpServlet {
         return assignment;
     }
 
+    /**
+     * 处理错误情况
+     * @param request HTTP请求
+     * @param response HTTP响应
+     * @param e 异常对象
+     */
     private void handleError(HttpServletRequest request, HttpServletResponse response, Exception e) 
             throws ServletException, IOException {
         String errorMessage;

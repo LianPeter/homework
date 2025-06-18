@@ -48,11 +48,11 @@
 
             <div class="form-floating">
                 <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-                <label for="username">Username</label>
+                <label for="username">用户名</label>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                <label for="password">Password</label>
+                <label for="password">密码</label>
             </div>
 
             <button class="w-100 btn btn-lg btn-primary" type="submit">登陆</button>

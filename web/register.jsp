@@ -27,7 +27,7 @@
 <body>
     <div class="container">
         <div class="register-container">
-            <h2 class="register-title">Teacher Registration</h2>
+            <h2 class="register-title">老师注册</h2>
             
             <% if(request.getAttribute("error") != null) { %>
                 <div class="alert alert-danger" role="alert">
@@ -37,39 +37,39 @@
             
             <form action="register" method="post">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="username" class="form-label">用户名</label>
                     <input type="text" class="form-control" id="username" name="username" required 
                            pattern="[a-zA-Z0-9_]{4,20}" 
                            title="Username must be 4-20 characters long and can only contain letters, numbers, and underscore">
                 </div>
                 
                 <div class="mb-3">
-                    <label for="name" class="form-label">Full Name</label>
+                    <label for="name" class="form-label">姓名</label>
                     <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">邮箱</label>
                     <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">密码</label>
                     <input type="password" class="form-control" id="password" name="password" required 
                            pattern=".{6,}" title="Password must be at least 6 characters long">
                 </div>
                 
                 <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <label for="confirmPassword" class="form-label">确认密码</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
                 
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary">注册</button>
                 </div>
                 
                 <div class="text-center mt-3">
-                    <a href="login" class="text-decoration-none">Already have an account? Login here</a>
+                    <a href="login" class="text-decoration-none">已经有账户？在这里登陆</a>
                 </div>
             </form>
         </div>

@@ -1,14 +1,29 @@
 package com.example.model;
 
+/**
+ * 教师实体类
+ * 用于存储教师的基本信息
+ */
 public class Teacher {
-    private int id;
-    private String username;
-    private String password;
-    private String name;
-    private String email;
+    private int id;          // 教师ID
+    private String username; // 用户名
+    private String password; // 密码
+    private String name;     // 教师姓名
+    private String email;    // 电子邮箱
 
+    /**
+     * 默认构造函数
+     */
     public Teacher() {}
 
+    /**
+     * 带参数的构造函数
+     * @param id 教师ID
+     * @param username 用户名
+     * @param password 密码
+     * @param name 教师姓名
+     * @param email 电子邮箱
+     */
     public Teacher(int id, String username, String password, String name, String email) {
         this.id = id;
         this.username = username;

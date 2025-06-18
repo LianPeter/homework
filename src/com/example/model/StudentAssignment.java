@@ -2,25 +2,50 @@ package com.example.model;
 
 import java.sql.Timestamp;
 
+/**
+ * 学生作业实体类
+ * 用于存储学生提交的作业信息，包括提交内容、评分、反馈等
+ */
 public class StudentAssignment {
-    private int id;
-    private int assignmentId;
-    private String studentId;
-    private String studentName;
-    private String submissionContent;
-    private String attachmentPath;    // 提交文件路径
-    private Timestamp submissionTime;
-    private String status;           // "not_submitted", "submitted", "late_submitted", "graded"
-    private Double grade;
-    private String feedback;
-    private int attemptCount;        // 提交次数
-    private boolean isOriginal;      // 是否原创
-    private Double similarityScore;  // 相似度评分
-    private Timestamp lastModified;  // 最后修改时间
-    private Timestamp createdAt;
+    private int id;                      // 提交记录ID
+    private int assignmentId;            // 作业ID
+    private String studentId;            // 学生ID
+    private String studentName;          // 学生姓名
+    private String submissionContent;    // 提交内容
+    private String attachmentPath;       // 提交文件路径
+    private Timestamp submissionTime;    // 提交时间
+    private String status;               // 状态：未提交、已提交、迟交、已评分
+    private Double grade;                // 分数
+    private String feedback;             // 教师反馈
+    private int attemptCount;            // 提交次数
+    private boolean isOriginal;          // 是否原创
+    private Double similarityScore;      // 相似度评分
+    private Timestamp lastModified;      // 最后修改时间
+    private Timestamp createdAt;         // 创建时间
 
+    /**
+     * 默认构造函数
+     */
     public StudentAssignment() {}
 
+    /**
+     * 带参数的构造函数
+     * @param id 提交记录ID
+     * @param assignmentId 作业ID
+     * @param studentId 学生ID
+     * @param studentName 学生姓名
+     * @param submissionContent 提交内容
+     * @param attachmentPath 附件路径
+     * @param submissionTime 提交时间
+     * @param status 状态
+     * @param grade 分数
+     * @param feedback 反馈
+     * @param attemptCount 提交次数
+     * @param isOriginal 是否原创
+     * @param similarityScore 相似度评分
+     * @param lastModified 最后修改时间
+     * @param createdAt 创建时间
+     */
     public StudentAssignment(int id, int assignmentId, String studentId, String studentName, 
                            String submissionContent, String attachmentPath, Timestamp submissionTime, 
                            String status, Double grade, String feedback, int attemptCount, 
@@ -164,19 +189,29 @@ public class StudentAssignment {
         this.lastModified = lastModified;
     }
 
-    // 新增方法：检查是否迟交
+    /**
+     * 检查是否为迟交
+     * @return 如果是迟交返回true，否则返回false
+     */
     public boolean isLateSubmission() {
         return "late_submitted".equals(status);
     }
 
-    // 新增方法：更新提交状态
+    /**
+     * 更新提交状态
+     * @param isLate 是否为迟交
+     */
     public void updateSubmissionStatus(boolean isLate) {
         this.status = isLate ? "late_submitted" : "submitted";
         this.attemptCount++;
         this.lastModified = new Timestamp(System.currentTimeMillis());
     }
 
-    // 新增方法：评分
+    /**
+     * 评分方法
+     * @param grade 分数
+     * @param feedback 反馈意见
+     */
     public void grade(double grade, String feedback) {
         this.grade = grade;
         this.feedback = feedback;
@@ -184,7 +219,10 @@ public class StudentAssignment {
         this.lastModified = new Timestamp(System.currentTimeMillis());
     }
 
-    // 新增方法：检查是否已评分
+    /**
+     * 检查是否已评分
+     * @return 如果已评分返回true，否则返回false
+     */
     public boolean isGraded() {
         return "graded".equals(status);
     }

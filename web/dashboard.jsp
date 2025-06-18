@@ -77,14 +77,14 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard</h1>
+                    <h1 class="h2">仪表盘</h1>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Total Assignments</h5>
+                                <h5 class="card-title">总提交</h5>
                                 <p class="card-text display-4">${totalAssignments}</p>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Pending Submissions</h5>
+                                <h5 class="card-title">待提交</h5>
                                 <p class="card-text display-4">${pendingSubmissions}</p>
                             </div>
                         </div>
@@ -100,23 +100,23 @@
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Graded Submissions</h5>
+                                <h5 class="card-title">分级提交</h5>
                                 <p class="card-text display-4">${gradedSubmissions}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h2>Recent Assignments</h2>
+                <h2>最近提交</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Created Date</th>
-                                <th>Deadline</th>
-                                <th>Submissions</th>
-                                <th>Actions</th>
+                                <th>标题</th>
+                                <th>创建数据</th>
+                                <th>截止日期</th>
+                                <th>提交</th>
+                                <th>动作</th>
                             </tr>
                         </thead>
                         <tbody>

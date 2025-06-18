@@ -3,18 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
-    
+
     <display-name>Teacher Assignment Management System</display-name>
 
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- 超时配置 -->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
 
-    <!-- Error Pages -->
+    <!-- Error-->
     <error-page>
         <error-code>404</error-code>
         <location>/error/404.jsp</location>
@@ -24,7 +25,7 @@
         <location>/error/500.jsp</location>
     </error-page>
 
-    <!-- Authentication Filter -->
+    <!-- Filter -->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>com.example.filter.AuthenticationFilter</filter-class>
